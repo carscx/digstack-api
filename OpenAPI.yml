@@ -1,0 +1,874 @@
+openapi: "3.0.2"
+info:
+  title: Laravel RESTful API
+  description: Server BackEnd Laravel RESTful API
+  version: "1.0"
+  contact:
+    email: alvin.set25@gmail.com
+    name: Alvin Setiawan
+    url: https://sabo-profile.net
+  license:
+    name: The Apache License, Version 2.0.
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://{environment}/api
+    description: Laravel RESTful API
+    variables:
+      environment:
+        default: laravel-restfulapi.herokuapp.com
+        enum:
+          - laravel-restfulapi.herokuapp.com
+paths:
+  /auth/login:
+    post:
+      tags:
+        - "Authentication"
+      requestBody:
+        $ref: "#/components/requestBodies/reqAuthLogin"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Login Successfully."
+                data:
+                  token: "secret token"
+                meta: []
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              example:
+                message: "Username or password was wrong!"
+                errors: []
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              example:
+                message: "User has been deactivated."
+                errors: []
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+  /auth/register:
+    post:
+      security:
+        - authSanctum: []
+      tags:
+        - "Authentication"
+      requestBody:
+        $ref: "#/components/requestBodies/reqAuthRegister"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              example:
+                message: "Registered Successfully."
+                data:
+                  token: "secret token"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+  /auth/logout:
+    post:
+      security:
+        - authSanctum: []
+      tags:
+        - "Authentication"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Logout Successfully."
+                data: []
+                meta: []
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: "Logout Failed."
+                errors: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+  /users:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Users"
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/userId"
+        - $ref: "#/components/parameters/startDate"
+        - $ref: "#/components/parameters/endDate"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              examples:
+                Default:
+                  $ref: "#/components/examples/GET_Users_200_Default"
+                Filtered:
+                  $ref: "#/components/examples/GET_Users_200_Filtered"
+                Empty:
+                  $ref: "#/components/examples/GET_Users_200_Empty"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+  /users/{id}:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Users"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "OK."
+                data:
+                  id: 1
+                  role_id: 1
+                  username: "user-1"
+                  email: "user-1@restapi.com"
+                  last_actived_at: "2022-02-27 14:55:09"
+                  status: 1
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      security:
+        - authSanctum: []
+      tags:
+        - "Users"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/reqUpdateUser"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "User updated."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - authSanctum: []
+      tags:
+        - "Users"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "User Disabled."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+  /posts:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Posts"
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/authorId"
+        - $ref: "#/components/parameters/startDate"
+        - $ref: "#/components/parameters/endDate"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              examples:
+                Default:
+                  $ref: "#/components/examples/GET_Posts_200_Default"
+                Filtered:
+                  $ref: "#/components/examples/GET_Posts_200_Filtered"
+                Empty:
+                  $ref: "#/components/examples/GET_Posts_200_Empty"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+    post:
+      security:
+        - authSanctum: []
+      tags:
+        - "Posts"
+      requestBody:
+        $ref: "#/components/requestBodies/reqStorePosts"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              example:
+                message: "Post Created."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+  /posts/{id}:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Posts"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "OK."
+                data:
+                  id: 1
+                  user_id: 1
+                  title: "Web Programming"
+                  slug: "web-programming"
+                  description: "Lorem ipsum dolor sit amet....."
+                  status: 1
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      security:
+        - authSanctum: []
+      tags:
+        - "Posts"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/reqUpdatePosts"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Post Updated."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - authSanctum: []
+      tags:
+        - "Posts"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Post Disabled."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+  /comments:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Comments"
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/authorId"
+        - $ref: "#/components/parameters/postId"
+        - $ref: "#/components/parameters/startDate"
+        - $ref: "#/components/parameters/endDate"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              examples:
+                Default:
+                  $ref: "#/components/examples/GET_Comments_200_Default"
+                Filtered:
+                  $ref: "#/components/examples/GET_Comments_200_Filtered"
+                Empty:
+                  $ref: "#/components/examples/GET_Comments_200_Empty"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+    post:
+      security:
+        - authSanctum: []
+      tags:
+        - "Comments"
+      requestBody:
+        $ref: "#/components/requestBodies/reqStoreComments"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              example:
+                message: "Comment Created."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        422:
+          $ref: "#/components/responses/422"
+        500:
+          $ref: "#/components/responses/500"
+  /comments/{id}:
+    get:
+      security:
+        - authSanctum: []
+      tags:
+        - "Comments"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "OK."
+                data:
+                  id: 1
+                  user_id: 1
+                  post_id: 1
+                  message: "Great post"
+                  status: 1
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      security:
+        - authSanctum: []
+      tags:
+        - "Comments"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/reqUpdateComments"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Comment Updated."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    delete:
+      security:
+        - authSanctum: []
+      tags:
+        - "Comments"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                message: "Comment Disabled."
+                data: []
+                meta: []
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+components:
+  securitySchemes:
+    authSanctum:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        format: int32
+    offset:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        format: int32
+    userId:
+      in: query
+      name: user_id
+      schema:
+        type: integer
+        format: int32
+    authorId:
+      in: query
+      name: author_id
+      schema:
+        type: integer
+        format: int32
+    postId:
+      in: query
+      name: post_id
+      schema:
+        type: integer
+        format: int32
+    startDate:
+      in: query
+      name: start_date
+      schema:
+        type: string
+        format: datetime
+    endDate:
+      in: query
+      name: end_date
+      schema:
+        type: string
+        format: datetime
+    id:
+      required: true
+      in: path
+      name: id
+      schema:
+        type: integer
+        format: int32
+  requestBodies:
+    reqAuthLogin:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          example:
+            username: "user"
+            password: "123456"
+    reqAuthRegister:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          example:
+            role_id: 1
+            username: "user"
+            email: "user@gmail.com"
+            password: "1233456"
+    reqUpdateUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+          examples:
+            Admin Access:
+              value:
+                role_id: 1
+                username: "user"
+                email: "user@gmail.com"
+                password: "1233456"
+            User Access:
+              value:
+                username: "user"
+                email: "user@gmail.com"
+                password: "1233456"
+    reqStorePosts:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Post"
+          example:
+            title: "Web Design"
+            description: "Lorem ipsum dolor sit amet, consectetur..."
+    reqUpdatePosts:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Post"
+          example:
+            title: "Web Design 2"
+            description: "Lorem ipsum 2..."
+    reqStoreComments:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Comment"
+          example:
+            post_id: 1
+            message: "Its great post buddie"
+    reqUpdateComments:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Comment"
+          example:
+            message: "Nice post"
+  responses:
+    401:
+      description: Unauthenticated
+      content:
+        application/json:
+          example:
+            message: "Unauthenticated."
+            errors: []
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          examples:
+            Access Denied:
+              value:
+                message: "This action is unauthorized."
+                errors: []
+            Token Expired:
+              value:
+                message: "Token Expired."
+                errors: []
+    422:
+      description: Validation Errors
+      content:
+        application/json:
+          example:
+            message: "Validation Errors."
+            errors:
+              value: "Value is required."
+    404:
+      description: Not Found
+      content:
+        application/json:
+          example:
+            message: "Not Found."
+            errors: []
+    500:
+      description: Internal Server Error
+      content:
+        application/json:
+          example:
+            message: "Internal Server Error."
+  examples:
+    GET_Users_200_Default:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            role_id: 1
+            username: "user-1"
+            email: "user-1@restapi.com"
+            last_actived_at: "2022-02-27 14:55:09"
+            status: 1
+          - id: 2
+            role_id: 2
+            username: "user-2"
+            email: "user-2@restapi.com"
+            last_actived_at: null
+            status: 1
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 2
+          total: 2
+    GET_Users_200_Filtered:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            role_id: 1
+            username: "user-1"
+            email: "user-1@restapi.com"
+            last_actived_at: "2022-02-27 14:55:09"
+            status: 1
+        meta:
+          limit: 1
+          offset: 0
+          filtered_total: 1
+          total: 2
+    GET_Users_200_Empty:
+      value:
+        message: "OK."
+        data: []
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 0
+          total: 0
+    GET_Posts_200_Default:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            user_id: 1
+            title: "Web Programming"
+            slug: "web-programming"
+            description: "Lorem ipsum dolor sit amet....."
+            status: 1
+          - id: 2
+            user_id: 1
+            title: "Backend Developer"
+            slug: "backend-developer"
+            description: "Lorem ipsum dolor sit amet....."
+            status: 1
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 2
+          total: 2
+    GET_Posts_200_Filtered:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            user_id: 1
+            title: "Web Programming"
+            slug: "web-programming"
+            description: "Lorem ipsum dolor sit amet....."
+            status: 1
+        meta:
+          limit: 1
+          offset: 0
+          filtered_total: 1
+          total: 2
+    GET_Posts_200_Empty:
+      value:
+        message: "OK."
+        data: []
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 0
+          total: 0
+    GET_Comments_200_Default:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            user_id: 1
+            post_id: 1
+            message: "Nice Post buddie"
+            status: 1
+          - id: 2
+            user_id: 1
+            post_id: 2
+            message: "It's great"
+            status: 1
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 2
+          total: 2
+    GET_Comments_200_Filtered:
+      value:
+        message: "OK."
+        data:
+          - id: 1
+            user_id: 1
+            post_id: 1
+            message: "Nice Post buddie"
+            status: 1
+        meta:
+          limit: 1
+          offset: 0
+          filtered_total: 1
+          total: 2
+    GET_Comments_200_Empty:
+      value:
+        message: "OK."
+        data: []
+        meta:
+          limit: 100
+          offset: 0
+          filtered_total: 0
+          total: 0
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: string
+          description: "type data mixed : array|object"
+        errors:
+          type: string
+          description: "type data object"
+        meta:
+          type: string
+          description: "type data object"
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        role_name:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        role_id:
+          type: integer
+          format: in32
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        last_actived_at:
+          type: string
+          format: datetime
+          nullable: true
+        status:
+          type: integer
+          format: int32
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        user_id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        status:
+          type: integer
+          format: int32
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        user_id:
+          type: integer
+          format: int32
+        post_id:
+          type: integer
+          format: int32
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
