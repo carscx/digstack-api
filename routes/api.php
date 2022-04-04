@@ -18,19 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['cors'])->group(function () {
+Route::post('auth/login', [AuthController::class, 'login'])->name('login');
+Route::post('auth/register', [AuthController::class, 'register']);
 
-    Route::post('auth/login', [AuthController::class, 'login'])->name('login');
-    Route::post('auth/register', [AuthController::class, 'register']);
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::prefix('auth')->group(function () {
-            // Route::post('register', [AuthController::class, 'register']);
-            Route::post('logout', [AuthController::class, 'logout']);
-        });
-
-        Route::resource('users', UserController::class);
-        Route::resource('posts', PostController::class);
-        Route::resource('comments', CommentController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('auth')->group(function () {
+        // Route::post('register', [AuthController::class, 'register']);
+        Route::post('logout', [AuthController::class, 'logout']);
     });
+
+    Route::resource('users', UserController::class);
+    Route::resource('posts', PostController::class);
+    Route::resource('comments', CommentController::class);
 });
