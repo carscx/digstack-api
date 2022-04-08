@@ -19,11 +19,12 @@ class DatabaseSeeder extends Seeder
         try {
             $this->call([
                 RoleSeeder::class,
-                UserSeeder::class,
-                PostSeeder::class,
-                CommentSeeder::class,
                 AbilitySeeder::class,
                 RoleAbilitySeeder::class,
+                UserSeeder::class,
+                PostSeeder::class,
+                ProjectSeeder::class,
+                CommentSeeder::class,
             ]);
             DB::commit();
         } catch (\Throwable $th) {

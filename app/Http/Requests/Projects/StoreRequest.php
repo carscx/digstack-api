@@ -28,6 +28,7 @@ class StoreRequest extends CustomRequest
         return [
             'title'         => 'required|max:50|unique:posts,title',
             'description'   => 'required',
+            'image'         => 'required',
         ];
     }
 }
