@@ -1,23 +1,23 @@
 openapi: "3.0.2"
 info:
-  title: Laravel RESTful API
+  title: Digstack RESTful API
   description: Server BackEnd Laravel RESTful API
   version: "1.0"
   contact:
-    email: alvin.set25@gmail.com
-    name: Alvin Setiawan
-    url: https://sabo-profile.net
+    email: karscx@gmail.com
+    name: Carlos Santos
+    url: https://carscx.com
   license:
     name: The Apache License, Version 2.0.
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://{environment}/api
-    description: Laravel RESTful API
+    description: Digstack RESTful API
     variables:
       environment:
-        default: laravel-restfulapi.herokuapp.com
+        default: api.digstack.ml
         enum:
-          - laravel-restfulapi.herokuapp.com
+          - api.digstack.ml
 paths:
   /auth/login:
     post:
@@ -31,9 +31,10 @@ paths:
           content:
             application/json:
               example:
-                message: "Login Successfully."
+                message: "Login realizado."
                 data:
-                  token: "secret token"
+                  access_token: "secret token"
+                  $ref: "#/components/schemas/User"
                 meta: []
         401:
           description: Unauthenticated
