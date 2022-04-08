@@ -15,12 +15,6 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('title')->unique();
-            $table->string('slug')->unique();
-            $table->text('description');
-            $table->enum('status', [0, 1])->default(1);
             $table->timestamps();
         });
     }
