@@ -11,7 +11,7 @@
 
 ## 🚀 API Documentation
 
--   [View Documentation](https://app.swaggerhub.com/apis-docs/sabo99/LaravelRESTfulAPI/1.0#/)
+-   [View Documentation](https://app.swaggerhub.com/apis-docs/carscx/digstack_api/1.0)
 
 <br>
 
@@ -19,7 +19,7 @@
 
 1.  **First Clone Project**
 
-    Clone project with this link https://github.com/sabo99/laravel-restfulapi.git
+    Clone project with this link https://github.com/carscx/digstack-api.git
 
 2.  **Install Depedencies**
 
@@ -28,9 +28,11 @@
     ```shell
     composer install
     ```
+
 3.  **Config Environment**
 
     Copy `.env.example` to new file `.env`
+
     ```shell
     cp .env.example .env
     ```
