@@ -32,6 +32,7 @@ class UpdateRequest extends CustomRequest
         return [
             'username'     => 'unique:users,username,' . request()->segment(3),
             'email'        => 'email|unique:users,email,' . request()->segment(3),
+            'image'        => 'image',
             'password'     => 'min:6'
         ];
     }

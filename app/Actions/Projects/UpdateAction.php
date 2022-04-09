@@ -28,6 +28,16 @@ class UpdateAction
             $project->title        = $request['title']         ?? $project->title;
             $project->description  = $request['description']   ?? $project->description;
 
+            if ($file = $request->file('image')) {
+                $destinationPath = "images/";
+                $final_location = $destinationPath . "/";
+                $name = $file->getClientOriginalName();
+                $path = $file->move($final_location, $file.'.'.$file->getClientOriginalExtension());
+                $project->image = $file;
+                $project->image_name = $name;
+                $project->image_path= $path;
+            }
+
             if (!empty($request['title']))
                 $project->slug     = Str::slug($project->title, '-');
 

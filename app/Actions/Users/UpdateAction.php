@@ -11,7 +11,7 @@ class UpdateAction
 {
     /**
      * Users Update Action.
-     * 
+     *
      * @param  int  $id
      * @param  \Illuminate\Http\Request $request
      * @return \App\Actions\Handlers\HandlerResponse;
@@ -31,6 +31,16 @@ class UpdateAction
             $user->username = $request['username'] ?? $user->username;
             $user->email    = $request['email']    ?? $user->email;
             $user->password = $request['password'] ?? $user->password;
+
+            if ($file = $request->file('image')) {
+                $destinationPath = "images/";
+                $final_location = $destinationPath . "/";
+                $name = $file->getClientOriginalName();
+                $path = $file->move($final_location, $file.'.'.$file->getClientOriginalExtension());
+                $user->image = $file;
+                $user->image_name = $name;
+                $user->image_path= $path;
+            }
 
             if ($request->user('sanctum')->tokenCan('*'))
                 $user->role_id = $request['role_id'] ?? $user->role_id;

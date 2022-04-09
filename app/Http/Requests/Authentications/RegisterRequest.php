@@ -28,6 +28,9 @@ class RegisterRequest extends CustomRequest
         return [
             'email'    => 'required|email|unique:users,email',
             'username' => 'required|unique:users,username',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'image' => 'required',
             'password' => 'required|min:6',
             'role_id'  => 'required'
         ];

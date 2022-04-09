@@ -31,7 +31,8 @@ class UpdateRequest extends CustomRequest
          */
         return [
             'user_id'       => 'numeric',
-            'title'         => 'max:50|unique:posts,title,' . request()->segment(3),
+            'title'         => 'max:50|unique:projects,title,' . request()->segment(3),
+            'image'         => 'image',
         ];
     }
 }
