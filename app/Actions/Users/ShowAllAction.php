@@ -26,6 +26,7 @@ class ShowAllAction
             $user = User::limit($limit)
                 ->offset($offset)
                 ->where('id', 'LIKE', $user_id)
+                ->where('role_id', '!=', '1')
                 ->whereBetween('created_at', ["$start_date 00:00:00", "$end_date 23:59:59"])
                 ->get();
 

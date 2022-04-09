@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->string('image')
-            ->after('slug')
-            ->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('first_name')->after('username')->nullable;
+            $table->string('last_name')->after('first_name')->nullable;
         });
     }
 
@@ -27,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

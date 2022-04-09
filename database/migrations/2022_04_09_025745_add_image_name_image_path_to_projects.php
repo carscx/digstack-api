@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             $table->string('image_name')
             ->after('image')
-            ->nullable;
+            ->nullable();
             $table->string('image_path')
             ->after('image_name')
-            ->nullable;
+            ->nullable();
         });
     }
 

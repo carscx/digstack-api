@@ -18,6 +18,7 @@ class RoleAbilitySeeder extends Seeder
         RoleAbility::insert([
             ['role_id' => 1, 'ability_id' => 1],
             ['role_id' => 2, 'ability_id' => 3],
+            ['role_id' => 2, 'ability_id' => 6],
             ['role_id' => 2, 'ability_id' => 7],
             ['role_id' => 2, 'ability_id' => 9],
             ['role_id' => 2, 'ability_id' => 11],
