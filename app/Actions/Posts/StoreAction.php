@@ -24,6 +24,16 @@ class StoreAction
             $post->slug         = Str::slug($post->title, '-');
             $post->description  = $request['description'];
 
+            if ($file = $request->file('image')) {
+                $destinationPath = "images/";
+                $final_location = $destinationPath . "/";
+                $name = $file->getClientOriginalName();
+                $path = $file->move($final_location, $file.'.'.$file->getClientOriginalExtension());
+                $post->image = $file;
+                $post->image_name = $name;
+                $post->image_path= $path;
+            }
+
             $post->save();
 
             return HandlerResponse::responseJSON([

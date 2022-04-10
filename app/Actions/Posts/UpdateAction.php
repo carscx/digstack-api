@@ -11,7 +11,7 @@ class UpdateAction
 {
     /**
      * Posts Update Action.
-     * 
+     *
      * @param  int  $id
      * @param  \Illuminate\Http\Request $request
      * @return \App\Actions\Handlers\HandlerResponse;
@@ -33,6 +33,16 @@ class UpdateAction
 
             if ($request->user('sanctum')->tokenCan('*'))
                 $post->user_id  = $request['user_id']       ?? $post->user_id;
+
+            if ($file = $request->file('image')) {
+                $destinationPath = "images/";
+                $final_location = $destinationPath . "/";
+                $name = $file->getClientOriginalName();
+                $path = $file->move($final_location, $file.'.'.$file->getClientOriginalExtension());
+                $post->image = $file;
+                $post->image_name = $name;
+                $post->image_path= $path;
+            }
 
             $post->save();
 
