@@ -30,7 +30,6 @@ class RegisterRequest extends CustomRequest
             'username' => 'required|unique:users,username',
             'first_name' => 'required',
             'last_name' => 'required',
-            'image' => 'required',
             'password' => 'required|min:6',
             'role_id'  => 'required'
         ];
