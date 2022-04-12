@@ -29,6 +29,7 @@ class DashboardAction
                 ->orderBy('created_at', 'DESC')
                 ->offset($offset)
                 ->where('user_id', 'LIKE', $author_id)
+                ->where('status', '==', 1)
                 ->whereBetween('created_at', ["$start_date 00:00:00", "$end_date 23:59:59"])
                 ->get();
 
@@ -36,6 +37,7 @@ class DashboardAction
                 ->orderBy('created_at', 'DESC')
                 ->offset($offset)
                 ->where('user_id', 'LIKE', $author_id)
+                ->where('status', '==', 1)
                 ->whereBetween('created_at', ["$start_date 00:00:00", "$end_date 23:59:59"])
                 ->get();
 
@@ -43,6 +45,7 @@ class DashboardAction
                 ->orderBy('created_at', 'DESC')
                 ->offset($offset)
                 ->where('role_id', '!=', '1')
+                ->where('status', '==', 1)
                 ->whereBetween('created_at', ["$start_date 00:00:00", "$end_date 23:59:59"])
                 ->get();
 
