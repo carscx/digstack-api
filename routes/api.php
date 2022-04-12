@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('projects', ProjectController::class);
     Route::resource('comments', CommentController::class);
+    Route::resource('dashboard', DashboardController::class);
 });
