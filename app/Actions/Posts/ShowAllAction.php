@@ -26,6 +26,7 @@ class ShowAllAction
             $post = Post::limit($limit)
                 ->offset($offset)
                 ->where('user_id', 'LIKE', $author_id)
+                ->where('status', 'LIKE', 1)
                 ->whereBetween('created_at', ["$start_date 00:00:00", "$end_date 23:59:59"])
                 ->get();
 
